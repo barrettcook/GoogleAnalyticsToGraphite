@@ -55,14 +55,14 @@ $piper = new GoogleAnalyticsToGraphite(
 foreach( $days as $day ) {
     foreach( $to_pull as $name => $query ) {
         $segment = $query['segment'];
-        $profile = $config['default_google_profile'];
+        $profile = $config['default_ga_profile'];
         if( isset($query['profile']) ) {
             $profile = $query['profile'];
         }
         echo ' '.$day.': '.$name.' => '.$segment."\n";
-        $metrics = $query['metrics'];
-        $filters = $query['filters'];
-        $dimensions = $query['dimensions'];
+        $metrics = isset($query['metrics']) ? $query['metrics'] : null;
+        $filters = isset($query['filters']) ? $query['filters'] : null;
+        $dimensions = isset($query['dimensions']) ? $query['dimensions'] : null;
         $piper->pipeForDayToGraphite($day, $name, $segment, $profile, $metrics, $dimensions, $filters);
     }
 }
